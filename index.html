@@ -36,19 +36,35 @@
 
       <!-- Quiz Buttons -->
       <section class="btn-container">
-        <button type="button" class="start btn btn-info">START QUIZ</button>
+        <button type="button" class="start btn btn-lg btn-info">
+          START QUIZ
+        </button>
 
-        <button type="button" class="choice1 btn btn-info"></button>
-        <button type="button" class="choice2 btn btn-info"></button>
-        <button type="button" class="choice3 btn btn-info"></button>
-        <button type="button" class="choice4 btn btn-info"></button>
+        <button
+          type="button"
+          class="choice choice1 btn btn-lg btn-info"
+        ></button>
+        <button
+          type="button"
+          class="choice choice2 btn btn-lg btn-info"
+        ></button>
+        <button
+          type="button"
+          class="choice choice3 btn btn-lg btn-info"
+        ></button>
+        <button
+          type="button"
+          class="choice choice4 btn btn-lg btn-info"
+        ></button>
 
-        <button type="button" class="try-again btn btn-info">TRY AGAIN</button>
+        <button type="button" class="try-again btn btn-lg btn-info">
+          TRY AGAIN
+        </button>
       </section>
 
       <!-- Alert for "Right" or "Wrong" -->
       <section class="alert-container">
-        <div class="alert alert-primary" role="alert"></div>
+        <p class="alert alert-primary" role="alert"></p>
       </section>
 
       <!-- Timer -->
@@ -56,21 +72,26 @@
         <p class="timer"></p>
       </section>
 
+      <!-- User Score -->
+      <section class="user-score-container">
+        <p class="user-score"></p>
+      </section>
+
       <!-- User Initials form -->
       <section class="form-container">
         <input
           type="text"
-          class="form"
-          placeholder="Enter Your Initials Here"
+          class="form-text"
+          placeholder="Enter Your Initials Here to See High Scores"
         />
-        <button type="button" class="form btn btn-info">SUBMIT</button>
+        <button type="button" class="submit btn btn-lg btn-info">SUBMIT</button>
       </section>
 
       <!-- Highscores List -->
       <section class="scores-container">
-        <ol class="scores">
+        <ul class="scores">
           Highscores:
-        </ol>
+        </ul>
       </section>
     </main>
 

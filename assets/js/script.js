@@ -4,25 +4,25 @@
 // When Quiz begins, the frist question and possible answers are rendered on the screen ✅ 
 
 // When the first question is answered the next question and possible answers are rendered ✅ 
-// When the first question is answered, an alert on the screen indicates "Right" or "Wrong"
+// When the first question is answered, an alert on the screen indicates "Right" or "Wrong" ✅ 
 
-// A tally is kept of how many correct answers the user gets which represents their score
+// A tally is kept of how many correct answers the user gets which represents their score ✅ 
 
 // New questions/possible answers are rendered after each question is answered ✅ 
 
-// If a question is answered wrong, 10 seconds is subtracted from the clock
+// If a question is answered wrong, 10 seconds is subtracted from the clock ✅ 
 
-// After the Timer runs out, the user's score is rendered on the screen
-// After the Timer runs out, the user is prompted to enter their initials
+// After the Timer runs out, the user's score is rendered on the screen ✅ 
+// After the Timer runs out, the user is prompted to enter their initials ✅ 
 
-// If the last question is answered with time remaining, the user's score is rendered
+// If the last question is answered with time remaining, the user's score is rendered ✅ 
 
-// After the user enters their initials, it is saved to localStorage with their score
-// After the user enters their initials, the list of high scores are rendered on the screen
+// After the user enters their initials, it is saved to localStorage with their score ✅ 
+// After the user enters their initials, the list of high scores are rendered on the screen ✅ 
 
-// When the highscores are displayed, the user is prompted to Try Again
+// When the highscores are displayed, the user is prompted to Try Again ✅ 
 
-// When the user clicks "Try Again" the Quiz starts over again
+// When the user clicks "Try Again" the Quiz starts over again ✅ 
 
 
 
@@ -102,17 +102,34 @@ var choice4List = [
 // 9.  choice2
 // 10. choice1
 
+var correctAnswers = [
+"HyperText Markup Language",
+"Cascading Style Sheets",
+"Method",
+"Class Selector",
+"Application Programming Interface",
+"<img>",
+"wednesdayIsHumpDay",
+"Document Object Model",
+"$",
+"[0]"
+]
+
 var questionText = document.querySelector(".question");
 var startBtn = document.querySelector(".start");
 var choice1Btn = document.querySelector(".choice1");
 var choice2Btn = document.querySelector(".choice2");
 var choice3Btn = document.querySelector(".choice3");
 var choice4Btn = document.querySelector(".choice4");
+var submitBtn = document.querySelector(".submit")
 var tryAgainBtn = document.querySelector(".try-again");
 var alert = document.querySelector(".alert");
 var timerText = document.querySelector(".timer");
-var initialsForm = document.querySelector(".form-container");
+var userScore = document.querySelector(".user-score");
+var initialsForm = document.querySelector(".form-text");
 var scoresList = document.querySelector(".scores");
+
+var allButtons = document.querySelectorAll(".choice");
 
 var timer = 60;
 var score = 0;
@@ -123,6 +140,8 @@ var choice2Index = 0;
 var choice3Index = 0;
 var choice4Index = 0;
 
+var savedScores = JSON.parse(localStorage.getItem("score")) || [];
+
 // Function for start of page - hiding Quiz elements until Quiz is started
 function init() {
     choice1Btn.style.display = "none";
@@ -132,6 +151,7 @@ function init() {
     alert.style.display = "none";
     tryAgainBtn.style.display = "none";
     initialsForm.style.display = "none";
+    submitBtn.style.display = "none";
     scoresList.style.display = "none";
 };
 
@@ -145,6 +165,33 @@ function renderQuestion() {
     choice2Btn.textContent = choice2List[choice2Index];
     choice3Btn.textContent = choice3List[choice3Index];
     choice4Btn.textContent = choice4List[choice4Index];
+
+    for (var i=0;i < allButtons.length; i++) {
+        var buttons = allButtons[i];
+        buttons.addEventListener("click",nextQuestion);
+    };
+};
+
+function nextQuestion(event) {
+    // if correct, alert "Right"; if incorrect, alert "Wrong"
+    alert.style.display = "block";
+    if (event.target.textContent === correctAnswers[questionsIndex]) {
+        alert.textContent = "Right!";
+        score+=10;
+    } else {
+        alert.textContent = "Wrong!";
+        timer-=10;
+    };
+    questionsIndex++;
+    choice1Index++;
+    choice2Index++;
+    choice3Index++;
+    choice4Index++;
+    renderQuestion();
+
+    if (questionsIndex >= questionsList.length) {
+        endQuiz();
+    };
 };
 
 // Event Listener to execute function that begins Quiz
@@ -163,59 +210,20 @@ function startQuiz() {
     choice4Btn.style.display = "block";
 
     // Start Timer for Quiz
-    var quizTimer = setInterval(() => {
+    startTimer();
+}
+
+// Function to start timer
+function startTimer() {
+var quizTimer = setInterval(() => {
         timer--;
         timerText.textContent = timer;
         if (timer <= 0) {
             clearInterval(quizTimer);
             endQuiz();
         };
-    }, 1000);
-}
-
-// Event Listeners for Choice Buttons to continue to next question
-choice1Btn.addEventListener("click",nextQuestion);
-function nextQuestion() {
-    alert.style.display = "block";
-    
-    questionsIndex++;
-    choice1Index++;
-    choice2Index++;
-    choice3Index++;
-    choice4Index++;
-    renderQuestion();
-
-    if (questionsIndex > questionsList.length) {
-        endQuiz();
-    }
-}
-choice2Btn.addEventListener("click",nextQuestion);
-function nextQuestion() {
-    questionsIndex++;
-    choice1Index++;
-    choice2Index++;
-    choice3Index++;
-    choice4Index++;
-    renderQuestion();
-}
-choice3Btn.addEventListener("click",nextQuestion);
-function nextQuestion() {
-    questionsIndex++;
-    choice1Index++;
-    choice2Index++;
-    choice3Index++;
-    choice4Index++;
-    renderQuestion();
-}
-choice4Btn.addEventListener("click",nextQuestion);
-function nextQuestion() {
-    questionsIndex++;
-    choice1Index++;
-    choice2Index++;
-    choice3Index++;
-    choice4Index++;
-    renderQuestion();
-}
+    }, 1000); 
+};
 
 // Function for End of Quiz, rendering Score and prompting user to enter initials
 function endQuiz() {
@@ -224,7 +232,74 @@ function endQuiz() {
     choice2Btn.style.display = "none";
     choice3Btn.style.display = "none";
     choice4Btn.style.display = "none";
-    initialsForm.style.display = "block";
+    timerText.style.display = "none";
+    alert.style.display = "none";
 
-    var userInits = initialsForm.value;
+    userScore.style.display = "block";
+    userScore.textContent = "Great job! You scored " + score + " points!";
+
+    initialsForm.style.display = "block";
+    submitBtn.style.display = "block";
 }
+
+// Event Listener to save user initials and score to local storage
+submitBtn.addEventListener("click",saveInits)
+function saveInits() {
+    var userInits = initialsForm.value;
+    var userObject = {
+        userInits,
+        score
+    };
+
+    savedScores.push(userObject);
+
+    // localStorage.setItem("initials", userInits);
+    // localStorage.setItem("score", score);
+
+    localStorage.setItem("score",JSON.stringify(savedScores))
+
+    highScores();
+};
+
+// Function to render list of High Scores
+function highScores() {
+    for (var i=0; i < savedScores.length; i++) {
+        var scoresEl = savedScores[i];
+        var newScoresList = document.createElement("li");
+        newScoresList.textContent = scoresEl.score + " Points" + " - " + scoresEl.userInits;
+        scoresList.appendChild(newScoresList);
+    };
+
+    initialsForm.style.display = "none";
+    submitBtn.style.display = "none";
+    timerText.style.display = "none";
+    userScore.style.display = "none";
+
+    scoresList.style.display = "block";
+    tryAgainBtn.style.display = "block";
+};
+
+// Event Listener to start quiz from the beginning 
+tryAgainBtn.addEventListener("click", retryQuiz)
+function retryQuiz() {
+    tryAgainBtn.style.display = "none";
+    scoresList.style.display = "none";
+
+    questionsIndex = 0;
+    choice1Index = 0;
+    choice2Index = 0;
+    choice3Index = 0;
+    choice4Index = 0;
+    timer = 60;
+    score = 0;
+
+    questionText.style.display = "block";
+    choice1Btn.style.display = "block";
+    choice2Btn.style.display = "block";
+    choice3Btn.style.display = "block";
+    choice4Btn.style.display = "block";
+    timerText.style.display = "block";
+
+    renderQuestion();
+    startTimer();
+};

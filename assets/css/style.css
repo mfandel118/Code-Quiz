@@ -7,6 +7,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .welcome-container h1 {
@@ -26,13 +27,13 @@
 .question-container {
   display: flex;
   flex-wrap: wrap;
-  flex-direction: column;
+  /* flex-direction: column; */
+  justify-content: center; /* WHY DO LONGER QUESTIONS NOT STAY CENTERED? */
   margin-top: 50px;
 }
 
 .question {
   margin: auto;
-  justify-content: center; /* WHY DO LONGER QUESTIONS NOT STAY CENTERED? */
   font-size: 50px;
   color: whitesmoke;
 }
@@ -46,6 +47,7 @@
 
 .start {
   margin: auto;
+  width: 50%;
 }
 
 .choice1,
@@ -57,13 +59,14 @@
 
 .alert-container {
   display: flex;
-  flex-direction: column;
   margin-top: 5px;
+  justify-content: center;
 }
 
 .alert {
   margin: auto;
-  justify-content: center;
+  height: 100%;
+  align-items: center;
 }
 
 .timer-container {
@@ -79,13 +82,48 @@
   color: whitesmoke;
 }
 
+.user-score-container {
+  display: flex;
+  justify-content: center;
+}
+
+.user-score {
+  color: whitesmoke;
+  font-size: 30px;
+}
+
 .form-container {
   margin-top: 5px;
   display: flex;
-  justify-content: center; /* WHY DOES THIS NOT APPEAR IN CENTER? */
+  justify-content: center;
 }
 
-.form {
+.form-text {
   margin: auto;
-  display: inline;
+  color: whitesmoke;
+  height: 50px;
+  width: 50%;
+  font-size: 20px;
+}
+
+.submit {
+  margin: auto;
+  width: 25%;
+}
+
+.scores-container {
+  display: flex;
+  justify-content: center;
+}
+
+.scores {
+  color: whitesmoke;
+  font-size: 50px;
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+}
+
+.scores li {
+  font-size: 30px;
 }
